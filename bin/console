@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "messy_broker"
+
+include Messy::Broker
+
+# logger = org.slf4j.LoggerFactory.get_logger('root')
+# logger.info('hello')
+# logger.info("used classpath:\n\t" + $CLASSPATH.collect(&:to_s).join("\n\t"))
+
+require "pry"
+Pry.start

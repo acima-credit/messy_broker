@@ -1,0 +1,109 @@
+GIT
+  remote: https://github.com/acima-credit/field_struct
+  revision: 248429fcf239500d1330ea2c30e8948a9182e81c
+  specs:
+    field_struct (0.2.10)
+      activemodel
+      activesupport
+
+GIT
+  remote: https://github.com/acima-credit/field_struct_avro_schema
+  revision: 7920b09f6e8c40c645ace65a5d6f84c8ec8ca8b9
+  specs:
+    field_struct_avro_schema (0.1.0)
+      activemodel
+      activesupport
+      avro (~> 1.9)
+      field_struct
+
+PATH
+  remote: .
+  specs:
+    messy_broker (0.1.0-java)
+      field_struct
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (6.0.2.2)
+      activesupport (= 6.0.2.2)
+    activesupport (6.0.2.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.2)
+    ast (2.4.0)
+    avro (1.9.2)
+      multi_json
+    coderay (1.1.2)
+    concurrent-ruby (1.1.6)
+    diff-lcs (1.3)
+    ffi (1.12.2-java)
+    i18n (1.8.2)
+      concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.4-java)
+    method_source (1.0.0)
+    minitest (5.14.0)
+    multi_json (1.14.1)
+    parallel (1.19.1)
+    parser (2.7.1.1)
+      ast (~> 2.4.0)
+    pry (0.13.1-java)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+      spoon (~> 0.0)
+    rainbow (3.0.0)
+    rake (12.3.3)
+    rexml (3.2.4)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.1)
+      rspec-support (~> 3.9.1)
+    rspec-expectations (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.2)
+    rubocop (0.82.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.7.0.1)
+      rainbow (>= 2.2.2, < 4.0)
+      rexml
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 2.0)
+    ruby-maven (3.3.12)
+      ruby-maven-libs (~> 3.3.9)
+    ruby-maven-libs (3.3.9)
+    ruby-progressbar (1.10.1)
+    spoon (0.0.6)
+      ffi
+    thread_safe (0.3.6-java)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
+    unicode-display_width (1.7.0)
+    zeitwerk (2.3.0)
+
+PLATFORMS
+  java
+
+DEPENDENCIES
+  field_struct!
+  field_struct_avro_schema!
+  messy_broker!
+  pry
+  rake (~> 12.0)
+  rspec (~> 3.0)
+  rubocop
+  ruby-maven
+
+RUBY VERSION
+   ruby 2.5.7p0 (jruby 9.2.11.1)
+
+BUNDLED WITH
+   2.1.4
