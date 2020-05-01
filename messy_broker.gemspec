@@ -23,17 +23,18 @@ Gem::Specification.new do |spec|
   end
   spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = %w[lib lib/jars]
+  spec.require_paths = %w[lib lib/messy/broker/jars]
 
-  # spec.requirements << 'jar org.slf4j:slf4j-api, 1.8.0-beta4'
-  # spec.requirements << 'jar org.slf4j:slf4j-simple, 1.8.0-beta4'
-  # spec.requirements << 'jar org.apache.kafka:kafka-clients, 2.4.0'
-  # spec.requirements << 'jar org.apache.avro:avro, 1.9.2'
-  # spec.requirements << 'jar tech.allegro.schema.json2avro:converter, 0.2.9'
-  # spec.requirements << 'repository "https://packages.confluent.io/maven/"'
-  # spec.requirements << 'jar io.confluent:kafka-avro-serializer, 5.5.0'
+  spec.requirements << 'jar org.slf4j:slf4j-api, 1.8.0-beta4'
+  spec.requirements << 'jar org.slf4j:slf4j-simple, 1.8.0-beta4'
+  spec.requirements << 'jar org.apache.kafka:kafka-clients, 2.4.0'
+  spec.requirements << 'jar org.apache.avro:avro, 1.9.2'
+  spec.requirements << 'jar tech.allegro.schema.json2avro:converter, 0.2.9'
+  spec.requirements << 'jar io.confluent:kafka-avro-serializer, 5.5.0'
+  spec.requirements << 'jar org.apache.kafka:kafka_2.12, 5.5.0-ccs'
 
   spec.add_runtime_dependency 'field_struct'
+  spec.add_runtime_dependency 'jar-dependencies'
 
   spec.add_development_dependency 'field_struct_avro_schema'
 

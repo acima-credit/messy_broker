@@ -21,6 +21,7 @@ PATH
   specs:
     messy_broker (0.1.0-java)
       field_struct
+      jar-dependencies
 
 GEM
   remote: https://rubygems.org/
@@ -42,6 +43,7 @@ GEM
     ffi (1.12.2-java)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
+    jar-dependencies (0.4.0)
     jaro_winkler (1.5.4-java)
     method_source (1.0.0)
     minitest (5.14.0)

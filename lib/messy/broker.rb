@@ -3,7 +3,7 @@
 require 'socket'
 require 'field_struct'
 
-require_relative 'broker/jars'
+require_relative 'broker/jars/messy_broker_jars'
 require_relative 'broker/error'
 require_relative 'broker/mixin'
 require_relative 'broker/record'

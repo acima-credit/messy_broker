@@ -10,25 +10,9 @@ RAKE_ROOT = Pathname.new('.').dirname.expand_path
 
 desc 'Vendor jars'
 task :vendor_jars do
-  # FileUtils.rm_rf RAKE_ROOT.join('lib', 'jars')
-  # Jars::Installer.vendor_jars! 'lib/jars'
-  # Rake::Task['rubocop:auto_correct'].invoke
-  pattern = RAKE_ROOT.join 'lib', 'jars', '*.jar'
-  dest = RAKE_ROOT.join 'lib', 'messy', 'broker', 'jars.rb'
-
-  # Pull jars with maven
-  sh 'mvn clean dependency:copy-dependencies'
-  # rewrite jars loader
-  File.open(dest, 'w') do |f|
-    f.puts '# frozen_string_literal: true'
-    f.puts ''
-    f.puts 'path = Pathname.new(__FILE__).dirname'
-    f.puts '$LOAD_PATH.unshift(path.to_s) unless $LOAD_PATH.include?(path.to_s)'
-    f.puts ''
-    Dir.glob(pattern).sort.each do |path|
-      f.puts "require '#{path.split('/').last}'"
-    end
-  end
+  FileUtils.rm_rf RAKE_ROOT.join('lib', 'messy', 'broker', 'jars')
+  Jars::Installer.vendor_jars! 'lib/messy/broker/jars'
+  Rake::Task['rubocop:auto_correct'].invoke
 end
 
 begin
