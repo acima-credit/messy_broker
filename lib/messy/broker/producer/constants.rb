@@ -17,18 +17,19 @@ module Messy
 
       SERIALIZERS = {
         'string' => StringSerializer,
+        'json' => StringSerializer,
         'avro' => AvroSerializer
       }.freeze
 
       # org.apache.avro.Schema.Parser
-      AvroSchemaParser  = Java::OrgApacheAvro::Schema::Parser
+      AvroSchemaParser = Java::OrgApacheAvro::Schema::Parser
 
-      # tech.allegro.schema.json2avro.converter.JsonAvroConverter
-      JsonAvroConverter = Java::TechAllegroSchemaJson2avroConverter::JsonAvroConverter
-      # tech.allegro.schema.json2avro.converter.AvroConversionException
-      JsonAvroConversionException = Java::TechAllegroSchemaJson2avroConverter::AvroConversionException
-
-      MAGIC_BYTE = [0].pack('C').freeze
+      # java.io.ByteArrayOutputStream
+      ByteArrayOutputStream = Java::JavaIo::ByteArrayOutputStream
+      # org.apache.avro.specific.SpecificDatumWriter
+      AvroDatumWriter = Java::OrgApacheAvroSpecific::SpecificDatumWriter
+      # org.apache.avro.io.EncoderFactory
+      AvroEncoderFactory = Java::OrgApacheAvroIo::EncoderFactory
 
       java_import 'org.apache.kafka.clients.producer.Callback'
 

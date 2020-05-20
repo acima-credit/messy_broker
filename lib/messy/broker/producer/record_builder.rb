@@ -22,7 +22,7 @@ module Messy
                    build_with_topic_partition_key(value, record_opts) ||
                    build_with_topic_key(value, record_opts) ||
                    build_with_topic(value, record_opts)
-          raise Error, 'invalid record options' unless record
+          raise 'invalid record options' unless record
 
           record_opts.headers&.to_props&.each { |k, v| record.headers.add k, v.to_java_bytes }
 

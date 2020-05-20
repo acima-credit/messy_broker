@@ -5,7 +5,8 @@ module Messy
     class Error < RuntimeError
       attr_reader :class_name
 
-      def initialize(exception, message = exception.message)
+      def initialize(exception, message = nil)
+        message ||= exception.message if exception.respond_to? :message
         super message
 
         @class_name = exception.class.name

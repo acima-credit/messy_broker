@@ -13,6 +13,8 @@ Metrics/BlockNesting:
 Metrics/ClassLength:
   CountComments: false
   Max: 125
+  Exclude:
+    - lib/messy/broker/schemas/registry.rb
 
 Metrics/PerceivedComplexity:
   Max: 8

@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/acima-credit/field_struct
-  revision: 260e5867d337e9a6425ec5ecd440284f8642d4b2
+  revision: c3a680cfcf45095e2cf37e9e578289cff18176c2
   specs:
-    field_struct (0.2.11)
+    field_struct (0.2.12)
       activemodel
       activesupport
 

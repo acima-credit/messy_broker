@@ -39,9 +39,12 @@ module Messy
         end
 
         def get_full(subject, id)
+          found = @ids[id]
+          return found if found
+
           safe_rest_call do
             version = get_versions_by_id(id, subject)&.first
-            return version if version.is_a?(Error)
+            return version if version.is_a?(Error) || version.nil?
 
             get_by_version subject, version
           end
@@ -53,28 +56,6 @@ module Messy
             schema = @cache.getSchemaById(id)
             cache_id id: id, schema: schema.raw_schema
           end
-        end
-
-        # ParsedSchema getSchemaByIdFromRegistry(int id)
-        def get_by_id_from_registry(id)
-          safe_rest_call do
-            @cache.getSchemaByIdFromRegistry(id).tap do |schema|
-              cache_id id: id, schema: schema.raw_schema
-            end
-          end
-        end
-
-        # ParsedSchema getSchemaBySubjectAndId(String subject, int id)
-        def get_by_subject_and_id(subject, id)
-          safe_rest_call do
-            schema = @cache.getSchemaBySubjectAndId subject, id
-            cache_id id: id, subject: subject, schema: schema.raw_schema
-          end
-        end
-
-        # Collection<String> getAllSubjectsById(int id)
-        def get_subjects_by_id(id)
-          safe_rest_call { @cache.getAllSubjectsById(id).to_a.sort }
         end
 
         # Collection<SubjectVersion> getAllVersionsById(int id)
@@ -220,7 +201,7 @@ module Messy
           if opts[:full]
             @ids[opts[:full].id] = opts[:full]
           else
-            (@ids[id] ||= Schema.new).tap do |found|
+            (@ids[opts[:id]] ||= Schema.new).tap do |found|
               found.assign_attributes_when_nil opts
             end
           end

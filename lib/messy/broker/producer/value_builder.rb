@@ -18,17 +18,17 @@ module Messy
           # @return [byte[]]
           # @raise Error
           def build(value, opts)
-            raise Error, "invalid value [#{value.class.name}]" unless value.is_a?(Hash)
+            raise "invalid value [#{value.class.name}]" unless value.is_a?(Hash)
 
             schema = get_full_schema opts
             raise schema if schema.is_a?(Error)
-            raise Error, 'could not find full schema' if schema.nil?
-            raise Error, 'could not parse full schema' unless schema.parsed_schema
+            raise 'could not find full schema' if schema.nil?
+            raise 'could not parse full schema' unless schema.parsed_schema
 
             schema_type = schema.parsed_schema.type.to_s
-            raise Error, "invalid schema type [#{schema_type}]" unless schema_type == 'RECORD'
+            raise "invalid schema type [#{schema_type}]" unless schema_type == 'RECORD'
 
-            convert_to_avro_value schema.parsed_schema, value
+            convert_to_avro_value schema, value
           end
 
           # @param [Messy::Broker::Producer::RecordOptions] opts
@@ -46,7 +46,7 @@ module Messy
           def get_full_schema_by_id(subject, schema_id)
             return unless schema_id
 
-            Schemas.registry.get_full subject, schema_id
+            Broker.schema_registry.get_full subject, schema_id
           end
 
           # @param [String] subject
@@ -56,18 +56,30 @@ module Messy
           def get_full_schema_by_schema(subject, schema_str, schema_version)
             return unless schema_str
 
-            Schemas.registry.find_or_register subject, schema_str, schema_version
+            Broker.schema_registry.find_or_register subject, schema_str, schema_version
           end
 
-          # @param [Java::OrgApacheAvro::Schema] avro_schema
+          # @param [Messy::Broker::Schemas::Registry::Schema] schema
           # @param [Hash] value
           # @return [byte[]]
-          def convert_to_avro_value(avro_schema, value)
+          def convert_to_avro_value(schema, value)
             converter = JsonAvroConverter.new
             json_bytes = value.to_json.to_java_bytes
-            converter.convertToGenericDataRecord json_bytes, avro_schema
+            converter.convertToGenericDataRecord json_bytes, schema.parsed_schema
           rescue Exception => e
             Error.new(e)
+          end
+        end
+
+        class JsonValueBuilder < TypeBuilder
+          # Builds a JSON representation of the data
+          #
+          # @param [Hash] value
+          # @param [Messy::Broker::Producer::RecordOptions] _opts
+          # @return [String]
+          # @raise Error
+          def build(value, _opts)
+            JSON.dump value
           end
         end
 
@@ -75,7 +87,7 @@ module Messy
           # Builds a STRING representation of the data
           #
           # @param [Hash] value
-          # @param [Messy::Broker::Producer::RecordOptions] opts
+          # @param [Messy::Broker::Producer::RecordOptions] _opts
           # @return [String]
           # @raise Error
           def build(value, _opts)
@@ -95,6 +107,8 @@ module Messy
           case opts.encode_format
           when 'avro'
             AvroValueBuilder.build(value, opts)
+          when 'json'
+            JsonValueBuilder.build(value, opts)
           when 'string'
             StringValueBuilder.build(value, opts)
           else

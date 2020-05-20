@@ -12,11 +12,10 @@ module Messy
       StringDeserializer = Java::OrgApacheKafkaCommonSerialization::StringDeserializer
       # io.confluent.kafka.serializers.KafkaAvroSerializer
       AvroDeserializer = Java::IoConfluentKafkaSerializers::KafkaAvroDeserializer
-      # io.confluent.kafka.serializers.KafkaJsonSerializer
-      JsonSchemaDeserializer = Java::IoConfluentKafkaSerializers::KafkaJsonDeserializer
 
       DESERIALIZERS = {
         'string' => StringDeserializer,
+        'json' => StringDeserializer,
         'avro' => AvroDeserializer
       }.freeze
 

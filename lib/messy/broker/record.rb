@@ -58,9 +58,7 @@ module Messy
       end
 
       def parsed_value
-        JSON.parse(value)
-      rescue JSONError
-        {}
+        parse_avro(value) || parse_json(value) || parse_unknown
       end
 
       def to_hash
@@ -88,6 +86,36 @@ module Messy
 
         original_headers.each { |header| hsh[header.key] = String.from_java_bytes header.value }
         hsh
+      end
+
+      def parse_json(body)
+        json_byte = body[0, 1]
+        return unless json_byte == '{'
+
+        JSON.parse(body)
+      rescue JSON::JSONError
+        {}
+      end
+
+      def parse_avro(body)
+        stream = StringIO.new body.to_s
+        magic_byte = stream.read(1)
+        return unless magic_byte == MAGIC_BYTE
+
+        schema_id = stream.read(4).unpack1('N')
+        schema = Broker.schema_registry.get_by_id schema_id
+        raise schema if schema.is_a?(Error)
+
+        avro_record = stream.read
+        converter = JsonAvroConverter.new
+        json = converter.convertToJson(avro_record.to_java_bytes, schema.schema).to_s
+        parse_json json
+      rescue StandardError
+        {}
+      end
+
+      def parse_unknown
+        {}
       end
     end
   end

@@ -68,7 +68,7 @@ module Messy
 
       # @param [Integer] timeout
       # @return [Array<Record>] list of messages returned
-      def poll(timeout = 1_000)
+      def poll(timeout = 3_000)
         raise 'Must subscribe to at least one topic' if topics.empty?
 
         broker unless started
