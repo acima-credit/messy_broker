@@ -5,6 +5,7 @@ require_relative 'producer/ruby_callback'
 require_relative 'producer/producer_options'
 require_relative 'producer/record_header_options'
 require_relative 'producer/record_options'
+require_relative 'producer/value_builder'
 require_relative 'producer/record_builder'
 
 module Messy
@@ -15,29 +16,30 @@ module Messy
           new options
         end
 
+        # @param [Hash] value
+        # @param [Hash] options
+        # @param [Proc] blk
         def send_message(value, options = {}, &blk)
           broker_opts = options.delete(:broker_options) || {}
-          instance    = build broker_opts
-          result, error = instance.send_message(value, options, &blk)
+          instance = build broker_opts
+          result = instance.send_message(value, options, &blk)
           instance.close
-          [result, error]
+          result
+        rescue Exception => e
+          Error.new(e)
         end
 
+        # @param [Array<Hash>] values
+        # @param [Hash] options
+        # @param [Proc] blk
         def send_messages(values, options = {}, &blk)
           broker_opts = options.delete(:broker_options) || {}
-          instance    = build broker_opts
-          results     = values.map do |value|
-            if value.is_a?(Array)
-              val  = value[0]
-              opts = options.deep_merge(value[1])
-            else
-              val  = value
-              opts = options.dup
-            end
-            instance.send_message(val, opts, &blk)
-          end
+          instance = build broker_opts
+          result = instance.send_messages(values, options, &blk)
           instance.close
-          results
+          result
+        rescue Exception => e
+          Error.new(e)
         end
       end
 
@@ -57,42 +59,55 @@ module Messy
         return @broker if @broker
 
         @lock.with_write_lock do
-          @broker = PRODUCER_CLASS.new @props
-          @send_meth = @broker.java_method :send, [PRODUCER_RECORD_CLASS]
-          @send_cb_meth = @broker.java_method :send, [PRODUCER_RECORD_CLASS, Callback.java_class]
+          @broker = KafkaProducer.new @props
+          @send_meth = @broker.java_method :send, [ProducerRecord]
+          @send_cb_meth = @broker.java_method :send, [ProducerRecord, Callback.java_class]
           @started = true
         end
 
         @broker
       end
 
-      def send_message(value, message_options, &block)
-        message_options = RecordOptions.new message_options
+      def send_message(value, message_options = {}, &block)
+        message_options = RecordOptions.new message_options.update(encode_format: @options.value_type)
         raise "invalid options: #{message_options.errors.full_messages.join(', ')}" unless message_options.valid?
 
         broker unless started
 
-        record, error = RecordBuilder.build value, message_options, @options.value_type
-        return error unless error.nil?
+        record = RecordBuilder.build value, message_options
+        return record if record.is_a?(Error)
 
-        res = @lock.with_write_lock do
+        @lock.with_write_lock do
           if block
             @send_cb_meth.call record, RubyCallback.new(block)
           else
             result = @send_meth.call record
-            result.is_a?(FUTURE_RECORD_CLASS) ? Record::Metadata.from(result.get) : result
+            result = Record::Metadata.from(result.get) if result.is_a?(FutureRecordMetadata)
+            result
           end
         end
-        [res, nil]
       rescue Exception => e
-        [nil, Error.new(e)]
+        Error.new(e)
+      end
+
+      def send_messages(values, options = {}, &blk)
+        values.map do |value|
+          if value.is_a?(Array)
+            val = value[0]
+            opts = options.dup.deep_merge value[1]
+          else
+            val = value
+            opts = options.dup
+          end
+          send_message val, opts, &blk
+        end
       end
 
       def close
         return false unless started
 
         @lock.with_write_lock do
-          broker.close CLOSE_TIMEOUT_MS, TIME_UNIT::MILLISECONDS
+          broker.close CLOSE_TIMEOUT_MS, TimeUnit::MILLISECONDS
           @broker       = nil
           @send_meth    = nil
           @send_cb_meth = nil

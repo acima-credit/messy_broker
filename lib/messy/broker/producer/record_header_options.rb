@@ -5,6 +5,10 @@ module Messy
     class Producer
       class RecordHeaderOptions < FieldStruct.flexible
         extras :add
+
+        ENCODINGS = %w[json avro].freeze
+
+        optional :encode_format, :string, enum: ENCODINGS, default: ENCODINGS.first
         optional :app_name, :string
         optional :app_version, :string
         optional :schema_name, :string

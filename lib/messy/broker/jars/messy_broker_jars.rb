@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # this is a generated file, to avoid over-writing it just delete this comment
 begin
   require 'jar_dependencies'
@@ -61,8 +59,8 @@ rescue LoadError
   require 'joda-time/joda-time/2.2/joda-time-2.2.jar'
   require 'io/swagger/swagger-models/1.5.3/swagger-models-1.5.3.jar'
   require 'org/glassfish/jersey/core/jersey-server/2.30/jersey-server-2.30.jar'
-  require 'org/glassfish/jersey/core/jersey-client/2.30/jersey-client-2.30.jar'
   require 'com/fasterxml/jackson/module/jackson-module-scala_2.12/2.10.2/jackson-module-scala_2.12-2.10.2.jar'
+  require 'org/glassfish/jersey/core/jersey-client/2.30/jersey-client-2.30.jar'
   require 'com/fasterxml/jackson/core/jackson-databind/2.10.2/jackson-databind-2.10.2.jar'
   require 'org/glassfish/jakarta.el/3.0.2/jakarta.el-3.0.2.jar'
   require 'jakarta/validation/jakarta.validation-api/2.0.2/jakarta.validation-api-2.0.2.jar'
@@ -133,8 +131,8 @@ if defined? Jars
   require_jar 'joda-time', 'joda-time', '2.2'
   require_jar 'io.swagger', 'swagger-models', '1.5.3'
   require_jar 'org.glassfish.jersey.core', 'jersey-server', '2.30'
-  require_jar 'org.glassfish.jersey.core', 'jersey-client', '2.30'
   require_jar 'com.fasterxml.jackson.module', 'jackson-module-scala_2.12', '2.10.2'
+  require_jar 'org.glassfish.jersey.core', 'jersey-client', '2.30'
   require_jar 'com.fasterxml.jackson.core', 'jackson-databind', '2.10.2'
   require_jar 'org.glassfish', 'jakarta.el', '3.0.2'
   require_jar 'jakarta.validation', 'jakarta.validation-api', '2.0.2'

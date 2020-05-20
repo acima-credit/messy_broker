@@ -13,6 +13,14 @@ module Messy
         optional :schema, :string
         optional :headers, RecordHeaderOptions, default: -> { {} }
 
+        delegate :encode_format,
+                 :app_name,
+                 :app_version,
+                 :schema_name,
+                 :schema_version,
+                 :schema_id,
+                 to: :headers
+
         def schema=(value)
           if value.is_a?(String)
             @attributes.write_from_user 'schema', value

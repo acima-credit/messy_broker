@@ -3,6 +3,8 @@
 require 'bundler/setup'
 require 'messy_broker'
 
+SPEC_ROOT = Pathname.new('.').dirname.join('spec').expand_path
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
@@ -14,3 +16,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+SPEC_ROOT.glob('support/*.rb').each { |x| require x }

@@ -48,7 +48,7 @@ module Messy
         return @broker if @broker
 
         @lock.with_write_lock do
-          @broker = CONSUMER_CLASS.new @props
+          @broker = KafkaConsumer.new @props
           @started = true
         end
       end
@@ -89,7 +89,7 @@ module Messy
         return false unless started
 
         @lock.with_write_lock do
-          broker.close CLOSE_TIMEOUT_MS, TIME_UNIT::MILLISECONDS
+          broker.close CLOSE_TIMEOUT_MS, TimeUnit::MILLISECONDS
           @broker = nil
           @started = false
           true

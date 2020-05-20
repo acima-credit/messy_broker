@@ -3,16 +3,22 @@
 module Messy
   module Broker
     class Consumer
-      CONSUMER_CLASS = Java::OrgApacheKafkaClientsConsumer::KafkaConsumer # org.apache.kafka.clients.consumer.KafkaConsumer
+      # org.apache.kafka.clients.consumer.KafkaConsumer
+      KafkaConsumer = Java::OrgApacheKafkaClientsConsumer::KafkaConsumer
 
-      STRING_DESERIALIZER_CLASS = Java::OrgApacheKafkaCommonSerialization::StringDeserializer # org.apache.kafka.common.serialization.StringDeserializer
-      AVRO_DESERIALIZER_CLASS   = Java::IoConfluentKafkaSerializers::KafkaAvroDeserializer # io.confluent.kafka.serializers.KafkaAvroDeserializer
+      # org.apache.kafka.common.serialization.StringDeserializer
+      STRING_DESERIALIZER_CLASS = Java::OrgApacheKafkaCommonSerialization::StringDeserializer
+      # org.apache.kafka.common.serialization.StringDeserializer
+      StringDeserializer = Java::OrgApacheKafkaCommonSerialization::StringDeserializer
+      # io.confluent.kafka.serializers.KafkaAvroSerializer
+      AvroDeserializer = Java::IoConfluentKafkaSerializers::KafkaAvroDeserializer
+      # io.confluent.kafka.serializers.KafkaJsonSerializer
+      JsonSchemaDeserializer = Java::IoConfluentKafkaSerializers::KafkaJsonDeserializer
 
       DESERIALIZERS = {
-        'string' => STRING_DESERIALIZER_CLASS.java_class.name,
-        'avro' => AVRO_DESERIALIZER_CLASS.java_class.name
+        'string' => StringDeserializer,
+        'avro' => AvroDeserializer
       }.freeze
-      DEFAULT_DESERIALIZER = DESERIALIZERS['avro']
 
       OFFSET_RESETS = %w[latest earliest none].freeze
       MAX_POLL_DEFAULT = 10
@@ -22,12 +28,10 @@ module Messy
       SESSION_TIMEOUT_MS = 30_000
 
       CLOSE_TIMEOUT_MS = 500
-      TIME_UNIT = Java::JavaUtilConcurrent::TimeUnit # java.util.concurrent.TimeUnit
+      TimeUnit = Java::JavaUtilConcurrent::TimeUnit # java.util.concurrent.TimeUnit
 
       TOPICS_REGEXP = /\A[\w\-.,]+\z/.freeze
       NAME_REGEXP   = /\A[\w\-.]+\z/.freeze
-
-      DURATION = Java::JavaTime::Duration # java.time.Duration
     end
   end
 end

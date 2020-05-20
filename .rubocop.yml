@@ -147,7 +147,9 @@ Lint/RescueException:
   Exclude:
     - lib/messy/broker/consumer.rb
     - lib/messy/broker/producer.rb
+    - lib/messy/broker/producer/value_builder.rb
     - lib/messy/broker/producer/record_builder.rb
+    - lib/messy/broker/schemas/registry.rb
 
 Lint/SuppressedException:
   Enabled: true

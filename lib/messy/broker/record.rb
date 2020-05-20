@@ -57,6 +57,12 @@ module Messy
         @headers   = build_headers options[:headers]
       end
 
+      def parsed_value
+        JSON.parse(value)
+      rescue JSONError
+        {}
+      end
+
       def to_hash
         {
           body: value,
