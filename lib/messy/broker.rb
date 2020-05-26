@@ -4,6 +4,7 @@ require 'socket'
 require 'field_struct'
 
 require_relative 'broker/jars/messy_broker_jars'
+require_relative 'broker/version'
 require_relative 'broker/constants'
 require_relative 'broker/errors'
 require_relative 'broker/schemas'
