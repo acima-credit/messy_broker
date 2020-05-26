@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require 'jars/installer'
-require 'rspec/core/rake_task'
-require 'pathname'
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
+require 'pathname'
+require 'fileutils'
 
 RAKE_ROOT = Pathname.new('.').dirname.expand_path
+
+Bundler::GemHelper.install_tasks
 
 desc 'Vendor jars'
 task :vendor_jars do
