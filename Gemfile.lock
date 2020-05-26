@@ -20,7 +20,6 @@ PATH
   specs:
     messy_broker (0.1.1-java)
       field_struct
-      jar-dependencies
 
 GEM
   remote: https://rubygems.org/
@@ -42,7 +41,6 @@ GEM
     ffi (1.12.2-java)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
-    jar-dependencies (0.4.0)
     jaro_winkler (1.5.4-java)
     method_source (1.0.0)
     minitest (5.14.1)
@@ -77,9 +75,6 @@ GEM
       rexml
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    ruby-maven (3.3.12)
-      ruby-maven-libs (~> 3.3.9)
-    ruby-maven-libs (3.3.9)
     ruby-progressbar (1.10.1)
     spoon (0.0.6)
       ffi
@@ -101,7 +96,6 @@ DEPENDENCIES
   rake (~> 12.0)
   rspec (~> 3.0)
   rubocop
-  ruby-maven
 
 RUBY VERSION
    ruby 2.5.7p0 (jruby 9.2.11.1)
