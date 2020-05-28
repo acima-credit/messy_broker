@@ -2,6 +2,9 @@
 
 module Messy
   module Broker
+    TOPICS_REGEXP = /\A[\w\-.,]+\z/.freeze
+    NAME_REGEXP   = /\A[\w\-.]+\z/.freeze
+
     MAGIC_BYTE = [0].pack('C').freeze
 
     # tech.allegro.schema.json2avro.converter.JsonAvroConverter

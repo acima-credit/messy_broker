@@ -38,9 +38,6 @@ module Messy
       # java.util.concurrent.TimeUnit
       TimeUnit = Java::JavaUtilConcurrent::TimeUnit
       CLOSE_TIMEOUT_MS = 500
-
-      TOPICS_REGEXP = /\A[\w\-.,]+\z/.freeze
-      NAME_REGEXP   = /\A[\w\-.]+\z/.freeze
     end
   end
 end

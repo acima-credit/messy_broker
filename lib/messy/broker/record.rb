@@ -63,7 +63,7 @@ module Messy
 
       def to_hash
         {
-          body: value,
+          value: parsed_value,
           headers: headers,
           meta: {
             checksum: checksum,
